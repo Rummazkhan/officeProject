@@ -1,0 +1,61 @@
+.mtCard {
+  /* animation: meals-appear 0.3s ease-out forwards; */
+
+  perspective: 1000px;
+  transition: transform 0.5s;
+}
+.mtCard:hover {
+  transform: perspective(1000px) translateZ(20px);
+}
+
+.lunchCard {
+  perspective: 1000px;
+  transition: transform 0.5s;
+}
+.lunchCard:hover {
+  transform: perspective(1000px) translateZ(20px);
+}
+
+.etCard {
+  perspective: 1000px;
+  transition: transform 0.5s;
+}
+.etCard:hover {
+  transform: perspective(1000px) translateZ(20px);
+}
+
+.custom-disabled-button {
+  background-color: #ccc;
+  color: #666;
+  border: 1px solid #999;
+  cursor: not-allowed;
+}
+
+@media (max-width: 575px) {
+  .mtBase {
+    margin-left: 17%;
+    margin-right: 17%;
+  }
+  .lBase {
+    margin-left: 17%;
+    margin-right: 17%;
+  }
+  .etBase {
+    margin-left: 17%;
+    margin-right: 17%;
+  }
+}
+@media (max-width: 385px) {
+  .mtBase {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .lBase {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .etBase {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
