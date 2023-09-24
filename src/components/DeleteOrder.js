@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../services/ToastService";
 import { useDispatch } from "react-redux";
-import Trash from "../assets/trash.png";
 import { deleteOrderRequest } from "../services/Services";
+import Trash from "../assets/icons/trash.png";
 
 export default function DeleteOrder() {
   const [show, setShow] = useState(false);

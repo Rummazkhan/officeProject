@@ -1,6 +1,9 @@
+.AppIcon {
+  margin-left: 7%;
+  height: 3rem;
+  width: 12rem;
+}
 .mtCard {
-  /* animation: meals-appear 0.3s ease-out forwards; */
-
   perspective: 1000px;
   transition: transform 0.5s;
 }
@@ -44,6 +47,11 @@
     margin-left: 17%;
     margin-right: 17%;
   }
+  .AppIcon {
+    height: 2rem;
+    width: 8rem;
+    margin-left: 10%;
+  }
 }
 @media (max-width: 385px) {
   .mtBase {
@@ -57,5 +65,37 @@
   .etBase {
     margin-left: 0;
     margin-right: 0;
+  }
+  .AppIcon {
+    height: 1.5rem;
+    width: 5rem;
+    margin-left: 10%;
+  }
+}
+
+.SplashContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40vh;
+}
+.SplashLogo {
+  background-color: #252b48;
+  height: 50%;
+  width: 30%;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  border-image: linear-gradient(to right, white, blue) 1;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
   }
 }

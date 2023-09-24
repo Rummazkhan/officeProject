@@ -5,6 +5,7 @@ import Lunch from "../components/Lunch";
 import EveningTea from "../components/EveningTea";
 import { Row } from "react-bootstrap";
 import MainNavbar from "../components/MainNavbar";
+import "../App.css";
 
 export default function HomePage() {
   const username = localStorage.username;

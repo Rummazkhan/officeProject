@@ -5,17 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { DateFormatter } from "../common/DateFomatter";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { showErrorToast } from "../services/ToastService";
-import MainNavbar from "./MainNavbar";
-import Spinnerr from "../common/Spinnerr";
-import UpdateOrder from "./UpdateOrder";
-import DeleteOrder from "./DeleteOrder";
+import MainNavbar from "../components/MainNavbar";
+import Loader from "../common/Loader";
+import UpdateOrder from "../components/UpdateOrder";
+import DeleteOrder from "../components/DeleteOrder";
 import CancelButton from "../common/CancelButton";
 import { DISABLED_BTN, MORNING_TEA } from "../constants/Constants";
-import {
-  validateCup,
-  validateSugarVolume,
-  validateUsername,
-} from "../authentication/Auth";
+import { validateExtras, validateItem } from "../validations/Validate";
 import { orderRequest } from "../services/Services";
 import { AppRoutes } from "../constants/RouteConstants";
 
@@ -23,7 +19,6 @@ export default function MorningTeaForm() {
   const haveData = useSelector((state) => state.auth.morningData);
 
   const username = localStorage.username;
-  const [name, setName] = useState(username);
   const [sugarQuantity, setSugarQuantity] = useState(
     haveData.length !== 0 ? haveData.sugerQuantity : ""
   );
@@ -36,14 +31,12 @@ export default function MorningTeaForm() {
   useEffect(() => {
     const delay = setTimeout(() => {
       setFormIsValid(
-        validateUsername(name) &&
-          validateCup(selectedCup) &&
-          validateSugarVolume(sugarQuantity)
+        validateExtras(selectedCup) && validateItem(sugarQuantity)
       );
     }, 200);
 
     return () => clearTimeout(delay);
-  }, [name, selectedCup, sugarQuantity]);
+  }, [selectedCup, sugarQuantity]);
 
   const email = localStorage.email;
 
@@ -72,26 +65,28 @@ export default function MorningTeaForm() {
 
       await orderRequest(formData, setIsLoading, navigate);
     } catch (error) {
-      showErrorToast("Order Already Placed");
+      if (error.response.status === 409) {
+        showErrorToast("Invalid Time");
+      }
       setIsLoading(false);
     }
   };
 
   return (
     <>
-      {isLoading && <Spinnerr />}
+      {isLoading && <Loader />}
       {!isLoading && (
         <>
           <MainNavbar />
           <h1
-            className="text-center mt-3"
+            className="text-center mt-4"
             style={{ fontFamily: "sans-serif", color: "#445069" }}
           >
             {orderType}
           </h1>
           <div
-            className="d-flex justify-content-center align-items-center "
-            style={{ minHeight: "70vh" }}
+            className="d-flex justify-content-center mt-4"
+            style={{ minHeight: "50vh" }}
           >
             <Card className="w-100 " style={{ maxWidth: "400px" }}>
               <CancelButton route={AppRoutes.HOMEPAGE_ROUTE} />
@@ -102,8 +97,8 @@ export default function MorningTeaForm() {
                     <Form.Control
                       type="text"
                       placeholder="Enter your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={username}
+                      readOnly
                     />
                   </Form.Group>
                   <Form.Group controlId="sugarQuantity" className="mt-3">

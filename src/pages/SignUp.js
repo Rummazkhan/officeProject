@@ -11,7 +11,7 @@ import {
   validateEmail,
   validatePassword,
   validateUsername,
-} from "../authentication/Auth";
+} from "../validations/Validate";
 import { signupRequest } from "../services/Services";
 
 export default function SignUp() {

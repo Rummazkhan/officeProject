@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Spinnerr from "../common/Spinnerr";
 import { DISABLED_BTN } from "../constants/Constants";
-import { validateEmail, validatePassword } from "../authentication/Auth";
+import { validateEmail, validatePassword } from "../validations/Validate";
 import { signinRequest } from "../services/Services";
 import { showErrorToast } from "../services/ToastService";
+import Splash from "../common/Splash";
 
 function SignIn() {
   const [email, setEmail] = useState("");
@@ -94,7 +94,7 @@ function SignIn() {
           </div>
         </Container>
       )}
-      {isLoading && <Spinnerr />}
+      {isLoading && <Splash />}
     </>
   );
 }

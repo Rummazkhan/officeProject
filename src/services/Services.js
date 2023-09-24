@@ -1,8 +1,13 @@
 import axios from "axios";
-import { BASE_URL } from "../constants/Constants";
+import {
+  BASE_URL,
+  EVENING_TEA,
+  LUNCH,
+  MORNING_TEA,
+} from "../constants/Constants";
 import { AppRoutes } from "../constants/RouteConstants";
 import { showSuccessToast } from "./ToastService";
-import { AuthActions } from "../store";
+import { StoreActions } from "../store";
 
 const token = localStorage.token;
 const headers = {
@@ -34,9 +39,8 @@ export const signupRequest = async (data, navigate, dispatch) => {
     const response = await axios.post(`${BASE_URL}/sign-up`, data);
     if (response.status === 200) {
       navigate(AppRoutes.SIGNIN_ROUTE);
-      dispatch(AuthActions.employee(data.username));
+      dispatch(StoreActions.employee(data.username));
       showSuccessToast("Your Account Has Been Created");
-      console.log(response);
     }
     return response;
   } catch (error) {
@@ -81,12 +85,12 @@ export const findEmployeeRequest = async (
     navigate(route);
     const haveData = response.data.payload.data[0];
 
-    if (orderType === "Morning Tea") {
-      dispatch(AuthActions.morningTeaData(haveData));
-    } else if (orderType === "Lunch") {
-      dispatch(AuthActions.lunchTimeData(haveData));
-    } else if (orderType === "AllEvent") {
-      dispatch(AuthActions.eveningTeaData(haveData));
+    if (orderType === MORNING_TEA) {
+      dispatch(StoreActions.morningTeaData(haveData));
+    } else if (orderType === LUNCH) {
+      dispatch(StoreActions.lunchTimeData(haveData));
+    } else if (orderType === EVENING_TEA) {
+      dispatch(StoreActions.eveningTeaData(haveData));
     }
 
     if (haveData.length === 0) {
@@ -95,8 +99,8 @@ export const findEmployeeRequest = async (
       const id = response.data.payload.data[0]._id;
       localStorage.setItem("id", id);
     }
-
     setLoading(false);
+    return response;
   } catch (error) {
     setLoading(false);
   }
@@ -143,9 +147,9 @@ export const deleteOrderRequest = async (id, dispatch, navigate) => {
     if (response.status === 200) {
       localStorage.removeItem("id");
       showSuccessToast("Order Deleted Successfully");
-      dispatch(AuthActions.lunchTimeData([]));
-      dispatch(AuthActions.morningTeaData([]));
-      dispatch(AuthActions.eveningTeaData([]));
+      dispatch(StoreActions.lunchTimeData([]));
+      dispatch(StoreActions.morningTeaData([]));
+      dispatch(StoreActions.eveningTeaData([]));
 
       navigate(AppRoutes.HOMEPAGE_ROUTE);
     }
@@ -192,7 +196,7 @@ export const sendCodeRequest = async (email, navigate, dispatch) => {
       navigate(AppRoutes.VERIFY_CODE_ROUTE);
       showSuccessToast("Code Sent Succesfully");
       console.log(email);
-      dispatch(AuthActions.resetMail(email));
+      dispatch(StoreActions.resetMail(email));
     }
 
     return response;

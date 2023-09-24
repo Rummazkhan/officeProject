@@ -1,5 +1,5 @@
 import React from "react";
-import check from "../assets/check.png";
+import check from "../assets/icons/check.png";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 

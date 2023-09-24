@@ -1,27 +1,23 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Card, Form } from "react-bootstrap";
-import MainNavbar from "./MainNavbar";
+import MainNavbar from "../components/MainNavbar";
 import { useNavigate } from "react-router-dom";
-import Spinnerr from "../common/Spinnerr";
+import Loader from "../common/Loader";
 import { DateFormatter } from "../common/DateFomatter";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import UpdateOrder from "./UpdateOrder";
-import DeleteOrder from "./DeleteOrder";
+import UpdateOrder from "../components/UpdateOrder";
+import DeleteOrder from "../components/DeleteOrder";
 import { DISABLED_BTN, EVENING_TEA } from "../constants/Constants";
 import CancelButton from "../common/CancelButton";
-import {
-  validateCup,
-  validateSugarVolume,
-  validateUsername,
-} from "../authentication/Auth";
+import { validateExtras, validateItem } from "../validations/Validate";
 import { orderRequest } from "../services/Services";
 import { AppRoutes } from "../constants/RouteConstants";
+import { showErrorToast } from "../services/ToastService";
 
 export default function EveningTeaForm() {
   const haveData = useSelector((state) => state.auth.eveningData);
   const username = localStorage.username;
-  const [name, setName] = useState(username);
   const [sugarQuantity, setSugarQuantity] = useState(
     haveData.length !== 0 ? haveData.sugerQuantity : ""
   );
@@ -34,14 +30,12 @@ export default function EveningTeaForm() {
   useEffect(() => {
     const delay = setTimeout(() => {
       setFormIsValid(
-        validateUsername(name) &&
-          validateCup(selectedCup) &&
-          validateSugarVolume(sugarQuantity)
+        validateExtras(selectedCup) && validateItem(sugarQuantity)
       );
     }, 200);
 
     return () => clearTimeout(delay);
-  }, [name, selectedCup, sugarQuantity]);
+  }, [selectedCup, sugarQuantity]);
 
   const handleRadioChange = (event) => {
     setSelectedCup(event.target.value);
@@ -69,26 +63,28 @@ export default function EveningTeaForm() {
       setIsLoading(true);
       await orderRequest(formData, setIsLoading, navigate);
     } catch (error) {
-      console.error("Axios error:", error);
       setIsLoading(false);
+      if (error.response.status === 409) {
+        showErrorToast("Invalid Time");
+      }
     }
   };
 
   return (
     <>
-      {isLoading && <Spinnerr />}
+      {isLoading && <Loader />}
       {!isLoading && (
         <>
           <MainNavbar />
           <h1
-            className="text-center mt-3"
+            className="text-center mt-4"
             style={{ fontFamily: "sans-serif", color: "#445069" }}
           >
             {orderType}
           </h1>
           <div
-            className="d-flex justify-content-center align-items-center "
-            style={{ minHeight: "70vh" }}
+            className="d-flex justify-content-center mt-4"
+            style={{ minHeight: "50vh" }}
           >
             <Card className="w-100" style={{ maxWidth: "400px" }}>
               <CancelButton route={AppRoutes.HOMEPAGE_ROUTE} />
@@ -99,8 +95,8 @@ export default function EveningTeaForm() {
                     <Form.Control
                       type="text"
                       placeholder="Enter your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={username}
+                      readOnly
                     />
                   </Form.Group>
                   <Form.Group controlId="sugarQuantity" className="mt-3">
@@ -148,11 +144,7 @@ export default function EveningTeaForm() {
                     </div>
                   ) : (
                     <div className="text-center">
-                      <UpdateOrder
-                        formData={formData}
-                        formValid={formIsValid ? {} : DISABLED_BTN}
-                        disabled={!formIsValid}
-                      />
+                      <UpdateOrder formData={formData} />
                       <DeleteOrder />
                     </div>
                   )}

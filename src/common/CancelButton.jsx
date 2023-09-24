@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Back from "../assets/back.png";
+import Back from "../assets/icons/back.png";
 
 export default function CancelButton(props) {
   const navigate = useNavigate();

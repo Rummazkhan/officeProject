@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Col, Spinner } from "react-bootstrap";
-import img2 from "../assets/img2.JPG";
+import img2 from "../assets/images/img2.JPG";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
@@ -26,7 +26,7 @@ function EveningTea() {
   const email = localStorage.email;
   const route = AppRoutes.EVENING_TEA_ROUTE;
 
-  ButtonEnabler(setIsButtonEnabled, 0, 24);
+  ButtonEnabler(setIsButtonEnabled, 15, 17);
 
   const handleClick = async () => {
     setLoading(true);

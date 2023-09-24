@@ -14,20 +14,8 @@ export const validateConfirmPassword = (password, confirmPassword) => {
   return password === confirmPassword;
 };
 
-export const validateCup = (selectedCup) => {
-  return selectedCup.length >= 1;
-};
-
-export const validateSugarVolume = (sugarQuantity) => {
-  return sugarQuantity.length >= 1;
-};
-
-export const validateRoti = (roti) => {
-  return roti.length >= 1;
-};
-
-export const validateAmount = (amount) => {
-  return amount.length >= 1;
+export const validateItem = (item) => {
+  return item.length >= 1 && parseInt(item) >= 0;
 };
 
 export const validateExtras = (extra) => {

@@ -5,25 +5,20 @@ import { useNavigate } from "react-router-dom";
 import { DateFormatter } from "../common/DateFomatter";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { DISABLED_BTN, LUNCH } from "../constants/Constants";
-import MainNavbar from "./MainNavbar";
-import Spinnerr from "../common/Spinnerr";
-import UpdateOrder from "./UpdateOrder";
-import DeleteOrder from "./DeleteOrder";
+import MainNavbar from "../components/MainNavbar";
+import Loader from "../common/Loader";
+import UpdateOrder from "../components/UpdateOrder";
+import DeleteOrder from "../components/DeleteOrder";
 import CancelButton from "../common/CancelButton";
-import {
-  validateAmount,
-  validateExtras,
-  validateRoti,
-  validateUsername,
-} from "../authentication/Auth";
+import { validateExtras, validateItem } from "../validations/Validate";
 import { orderRequest } from "../services/Services";
 import { AppRoutes } from "../constants/RouteConstants";
+import { showErrorToast } from "../services/ToastService";
 
 export default function LunchForm() {
   const haveData = useSelector((state) => state.auth.lunchData);
 
   const username = localStorage.username;
-  const [name, setName] = useState(username);
   const [roti, setRoti] = useState(
     haveData.length !== 0 ? haveData.rotiQuantity : ""
   );
@@ -39,15 +34,12 @@ export default function LunchForm() {
   useEffect(() => {
     const delay = setTimeout(() => {
       setFormIsValid(
-        validateUsername(name) &&
-          validateRoti(roti) &&
-          validateAmount(amount) &&
-          validateExtras(extra)
+        validateItem(roti) && validateItem(amount) && validateExtras(extra)
       );
     }, 200);
 
     return () => clearTimeout(delay);
-  }, [name, roti, amount, extra]);
+  }, [roti, amount, extra]);
 
   const navigate = useNavigate();
   const currentDate = new Date();
@@ -55,10 +47,6 @@ export default function LunchForm() {
   const orderType = LUNCH;
   const extras = extra;
   const email = localStorage.email;
-
-  const handleUsername = (e) => {
-    setName(e.target.value);
-  };
 
   const handleRotiAmount = (e) => {
     setRoti(e.target.value);
@@ -88,18 +76,20 @@ export default function LunchForm() {
       setIsLoading(true);
       await orderRequest(formData, setIsLoading, navigate);
     } catch (error) {
-      console.error("Axios error:", error);
       setIsLoading(false);
+      if (error.response.status === 409) {
+        showErrorToast("Invalid Time");
+      }
     }
   };
   return (
     <>
-      {isLoading && <Spinnerr />}
+      {isLoading && <Loader />}
       {!isLoading && (
         <>
           <MainNavbar />
           <h1
-            className="text-center mt-3"
+            className="text-center mt-4"
             style={{ fontFamily: "sans-serif", color: "#445069" }}
           >
             Order Your {orderType}
@@ -117,8 +107,8 @@ export default function LunchForm() {
                     <Form.Control
                       type="text"
                       placeholder="Enter your name"
-                      value={name}
-                      onChange={handleUsername}
+                      value={username}
+                      readOnly
                     />
                   </Form.Group>
                   <Form.Group controlId="roti">
@@ -144,7 +134,7 @@ export default function LunchForm() {
                   </Form.Group>
 
                   <Form.Group controlId="comment" className="mb-3">
-                    <h6 className="mt-4">
+                    <h6 className="mt-2">
                       Write any description or detail for your order
                     </h6>
                     <Form.Control

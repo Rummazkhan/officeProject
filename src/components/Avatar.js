@@ -1,5 +1,5 @@
 import React from "react";
-import settings from "../assets/setting.png";
+import settings from "../assets/icons/setting.png";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import LogOut from "../pages/LogOut";

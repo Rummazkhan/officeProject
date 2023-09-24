@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthActions } from "../store";
+import { StoreActions } from "../store";
 import { useDispatch } from "react-redux";
+import { AppRoutes } from "../constants/RouteConstants";
 
 export default function LogOut() {
   const navigate = useNavigate();
@@ -9,8 +10,8 @@ export default function LogOut() {
 
   const handleCLick = () => {
     localStorage.clear();
-    dispatch(AuthActions.resetState());
-    navigate("/");
+    dispatch(StoreActions.resetState());
+    navigate(AppRoutes.SIGNIN_ROUTE);
   };
   return <div onClick={handleCLick}>Logout</div>;
 }

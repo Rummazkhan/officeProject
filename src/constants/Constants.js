@@ -3,7 +3,7 @@ export const ORDER = "Order";
 
 export const MORNING_TEA = "Morning Tea";
 export const LUNCH = "Lunch";
-export const EVENING_TEA = "AllEvent";
+export const EVENING_TEA = "Evening Tea";
 
 export const APP_TITLE = `Welcome To Roti Kha Lo`;
 
@@ -21,7 +21,7 @@ going back to your daily routine.`;
 
 //styling constants
 export const CARD_STYLE = {
-  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.3)",
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.5)",
   border: "2px solid #445069",
 };
 

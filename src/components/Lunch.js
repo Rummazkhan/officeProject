@@ -1,7 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Col, Spinner } from "react-bootstrap";
-import img3 from "../assets/img3.JPG";
+import img3 from "../assets/images/img3.JPG";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";

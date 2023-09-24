@@ -1,6 +1,6 @@
 import Spinner from "react-bootstrap/Spinner";
 
-function Spinnerr() {
+function Loader() {
   return (
     <div
       className="d-flex justify-content-center align-items-center"
@@ -11,4 +11,4 @@ function Spinnerr() {
   );
 }
 
-export default Spinnerr;
+export default Loader;

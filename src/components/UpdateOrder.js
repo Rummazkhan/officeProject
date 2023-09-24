@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { showErrorToast } from "../services/ToastService";
-
 import { updateOrderRequest } from "../services/Services";
 
 export default function UpdateOrder(props) {
@@ -20,13 +19,7 @@ export default function UpdateOrder(props) {
 
   return (
     <>
-      <Button
-        style={props.formValid}
-        disabled={props.disabled}
-        onClick={handleClick}
-      >
-        Update
-      </Button>
+      <Button onClick={handleClick}>Update</Button>
     </>
   );
 }

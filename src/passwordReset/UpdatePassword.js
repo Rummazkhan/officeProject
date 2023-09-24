@@ -9,11 +9,11 @@ import {
   validateConfirmPassword,
   validateEmail,
   validatePassword,
-} from "../authentication/Auth";
+} from "../validations/Validate";
 import { updatePasswordRequest } from "../services/Services";
 import { AppRoutes } from "../constants/RouteConstants";
 
-export default function UpdateProfile() {
+export default function UpdatePassword() {
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [confirmNewPass, setConfirmOldPass] = useState("");

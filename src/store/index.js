@@ -1,6 +1,6 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const initialAuthState = {
+const initialStoreState = {
   isAuthenticated: false,
   userEmailId: "",
   name: "",
@@ -10,9 +10,9 @@ const initialAuthState = {
   lunchData: [],
   eveningData: [],
 };
-const authSlice = createSlice({
-  name: "Authentication",
-  initialState: initialAuthState,
+const storeSlice = createSlice({
+  name: "StoreState",
+  initialState: initialStoreState,
   reducers: {
     isLoggedIn(state) {
       state.isAuthenticated = true;
@@ -38,13 +38,13 @@ const authSlice = createSlice({
     eveningTeaData(state, action) {
       state.eveningData = action.payload;
     },
-    resetState: () => initialAuthState,
+    resetState: () => initialStoreState,
   },
 });
 
 const store = configureStore({
-  reducer: { auth: authSlice.reducer },
+  reducer: { auth: storeSlice.reducer },
 });
 
-export const AuthActions = authSlice.actions;
+export const StoreActions = storeSlice.actions;
 export default store;
