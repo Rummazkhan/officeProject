@@ -80,8 +80,9 @@
   margin-top: 40vh;
 }
 .SplashLogo {
-  background-color: #252b48;
   height: 50%;
+  background-color: #252b48;
+
   width: 30%;
   border-radius: 10px;
   border: 2px solid transparent;

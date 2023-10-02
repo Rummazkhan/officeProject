@@ -10,9 +10,6 @@ import { showSuccessToast } from "./ToastService";
 import { StoreActions } from "../store";
 
 const token = localStorage.token;
-const headers = {
-  Authorization: `Bearer ${token}`,
-};
 
 // sigin request
 export const signinRequest = async (data, setIsLoading, navigate) => {
@@ -80,7 +77,11 @@ export const findEmployeeRequest = async (
   try {
     const response = await axios.get(
       `${BASE_URL}/get-employee-order?email=${email}&orderType=${orderType}`,
-      { headers: headers }
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     navigate(route);
     const haveData = response.data.payload.data[0];
